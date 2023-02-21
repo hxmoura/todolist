@@ -1,0 +1,75 @@
+@import '../../App.sass'
+
+.home
+    background-color: #E3F2F9
+    min-height: 100vh
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+.auth-content
+    min-height: 450px
+    width: 400px
+    padding: 20px
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+
+.auth-title
+    font-weight: bold
+    font-size: 2rem
+    text-transform: uppercase
+    color: $primary-color
+    margin-bottom: 30px
+
+.auth-form
+    width: 90%
+
+.signin-buttons
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 90%
+    margin: 15px 0
+
+.auth-submit
+    background-color: $secundary-color
+    border: none
+    font-size: 1rem
+    font-weight: 500
+    text-transform: uppercase
+    color: #fff
+    padding: 10px 15px
+    border-radius: 10px
+    cursor: pointer
+    width: 100%
+    transition: all .2s ease-in-out
+    margin: 15px 0
+
+    &:hover
+        background-color: #E4695E
+
+.auth-redirect
+    color: $primary-color
+    text-decoration: none
+    font-size: 1rem
+    font-weight: 500
+    cursor: pointer
+
+    &:hover
+        text-decoration: underline
+
+.auth-msg
+    color: $secundary-color
+    font-weight: 400
+    font-size: 1rem
+    margin-top: 20px
+    padding: 7px 20px
+    max-width: 90%
+    border: 1px solid $secundary-color
+    border-radius: 10px
+
+.hidden
+    visibility: hidden

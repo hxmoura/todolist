@@ -1,0 +1,228 @@
+@import '../../App.sass'
+
+@mixin mobile
+    @media(max-width: 425px)
+        @content
+
+@mixin tablet
+    @media(max-width: 950px)
+        @content
+
+.todolist
+    background-color: $bg-color
+    min-height: 100vh
+    display: grid
+    grid-template-rows: 100px 1fr
+    grid-template-areas: 'menu header' 'menu content'
+    transition: all .3s ease-in-out
+
+    &-reduced
+        grid-template-columns: 80px 1fr
+
+    &-expanded
+        grid-template-columns: 200px 1fr
+
+    @include mobile
+        grid-template-columns: none
+        grid-template-areas: 'header' 'content'
+
+.createTask-content,
+.editTask-content,
+.tableTasks-content
+    grid-area: content
+    padding: 50px
+
+.table-row
+    cursor: pointer
+
+.table-status
+    width: 12px
+    height: 12px
+    border-radius: 50%
+
+    &-checked
+        background-color: #3FB515
+
+    &-pendent
+        background-color: $secundary-color
+
+.edit-status
+    cursor: pointer
+
+    &-checked
+        color: #3FB515
+    &-pendent
+        color: $secundary-color
+
+    &:hover
+        text-decoration: underline
+
+// Menu Navigation
+.navigation-text
+    color: #fff
+    text-align: center
+    font-weight: normal
+    font-size: .9rem
+    line-height: 1.5rem
+
+.menu
+    grid-area: menu
+    background-color: $primary-color
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: space-between
+    padding: 0 10px
+
+    @include mobile
+        display: flex
+        width: 200px
+        height: 100%
+        z-index: 2
+        position: absolute
+        left: -200px
+
+    &-show
+        animation: showMenu .4s ease-in-out
+        left: 0
+
+    &-hide
+        animation: hideMenu .4s ease-in-out
+        left: -200px
+
+@keyframes hideMenu
+    from
+        left: 0px
+    to
+        left: -200px
+
+@keyframes showMenu
+    from
+        left: -200px
+    to
+        left: 0px
+
+.bg-menu-mobile
+    z-index: 1
+    position: absolute
+    background-color: black
+    opacity: 0
+    transition: opacity .8s
+
+    &-active
+        opacity: 0.6
+        width: 100%
+        height: 100%
+
+.navigation
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
+
+.menu-toggle
+    color: #fff
+    cursor: pointer
+    margin-top: 50px
+    align-self: flex-end
+
+.menu-logo
+    width: 100px
+
+    &-reduced
+        width: 60px
+
+.menu-title
+    color: #fff
+    text-transform: uppercase
+    font-size: 1.725rem
+    font-weight: bold
+
+.navigation-options
+    width: 100%
+
+.navigation-option
+    display: flex
+    align-items: center
+    gap: 5px
+    color: #fff
+    cursor: pointer
+    margin: 5px 0
+    transition: all .3s ease-in-out
+    border-radius: 15px
+    justify-content: center
+    padding: 7px 10px
+    height: 40px
+
+    &-active
+        background-color: #5B6D81
+
+.navigation-createTask
+    background-color: $secundary-color
+    border-radius: 15px
+    margin: 50px 0 20px 0
+    justify-content: center
+
+    &:hover
+        background-color: #E4695E
+
+.logout-container
+    display: flex
+    flex-direction: column
+    align-items: center
+    margin-bottom: 50px
+    gap: 10px
+
+.navigation-logout
+    color: #fff
+    background-color: $secundary-color
+    border: none
+    outline: none
+    border-radius: 15px
+    display: flex
+    align-items: center
+    gap: 5px
+    padding: 10px 15px
+    cursor: pointer
+
+// NotTask
+.notTask
+    font-size: 1rem
+    font-weight: normal
+    color: $primary-color
+    line-height: 1.5rem
+
+    &-redirect
+        font-weight: bold
+        cursor: pointer
+
+        &:hover
+            text-decoration: underline
+
+.pageHeader
+    grid-area: header
+    background-color: #5B6D81
+    min-height: 100px
+    display: flex
+    align-items: flex-end
+    padding: 15px 0
+
+.menu-toggle-mobile
+    display: none
+    color: #fff
+    cursor: pointer
+    margin-left: 20px
+
+    @include mobile
+        display: flex
+
+.header-title
+    color: #fff
+    font-weight: bold
+    font-size: 1.6rem
+    text-transform: uppercase
+    margin-left: 50px
+
+    @include mobile
+        margin-left: 20px
+        font-size: 1.3rem
