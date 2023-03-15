@@ -1,0 +1,60 @@
+@import '../../sass/style.sass'
+    
+.form
+    display: flex
+    flex-direction: column
+
+    &-label
+        @include text($size: 1.2rem, $height: 16px, $weight: 700)
+        margin-bottom: 10px
+        text-transform: uppercase
+        color: $dark-color
+
+        @include dark
+            color: $light-color-hover
+
+        &-marked
+            color: $pendent-color
+
+        &-optional
+            font-weight: 400
+            text-transform: none
+
+    &-input-task
+        @include input
+        @include dark
+            background-color: $dark-color-hover
+            color: $light-color-hover
+
+    &-input-description
+        @include input
+        margin-bottom: 50px
+        height: 200px
+        resize: none
+
+        @include dark
+            background-color: $dark-color-hover
+            color: $light-color-hover
+
+    &-btn-create
+        background-color: $primary-color
+        color: $light-color-hover
+        @include text($size: 1rem, $height: 24px, $weight: 400)
+        border-radius: 10px
+        border: none
+        outline: none
+        padding: 8px 25px
+        height: 40px
+        margin-right: 20px
+        cursor: pointer
+
+    &-btn-return
+        @include text($size: 1rem, $height: 24px, $weight: 400)
+        background-color: transparent
+        color: $dark-color
+        border: none
+        outline: none
+        cursor: pointer
+
+        @include dark
+            color: $light-color-hover

@@ -9,12 +9,13 @@ const { DB_CONNECT } = process.env
 const { getUser, createTask, deleteTask, updateTask, signup, signin } = require('./actions')
 
 app.use(express.json())
+app.use(cors())
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-    app.use(cors())
-    next()
-})
+// app.use((req, res, next) => {
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+    // app.use(cors())
+    // next()
+// })
 
 // AUTHENTICATION
 app.post('/signup', signup)

@@ -1,58 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import './Home.sass'
 import api from '../../api/axios'
-// import PageHeader from '../../components/PageHeader/PageHeader'
-import Logo from '../../assets/imgs/icon.png'
-import { List, CalendarBlank, CalendarCheck, CalendarX, CalendarPlus, SignOut, X } from 'phosphor-react'
-
+import MyContext from '../../context/myContext'
+import Menu from '../../components/Menu/Menu'
+import useAuth from '../../hooks/useAuth'
+import PageHeader from '../../components/PageHeader/PageHeader'
+import useTask from '../../hooks/useTask'
 
 export default function Todolist() {
 
-    const [user, setUser] = useState({ username: '', tasks: [] })
-    const [task, setTask] = useState({ title: '', description: '' })
-    const [editTask, setEditTask] = useState({ title: '', description: '' })
-    const [loading, setLoading] = useState(true)
-    const [page, setPage] = useState('allTasks')
-    const getToken = localStorage.getItem('token')
+    const { page, setPage } = useContext(MyContext)
+    const { getData, user } = useAuth()
 
-    const [menuExpanded, setMenuExpanded] = useState(true)
-    const [menuMobile, setMenuMobile] = useState('')
+    const { task, setTask, setEditTask, editTask } = useTask()
 
-    useEffect(() => {
-        const width = window.screen.width
-
-        if (getToken) {
-            api.defaults.headers.common["Authorization"] = `Bearer ${getToken}`
-            api.get('/user')
-                .then(resp => {
-                    setUser(resp.data.user)
-                    setLoading(false)
-                })
-                .catch(() => logout())
-        }
-
-        if (width > 425 && width < 950) setMenuExpanded(false)
-
-    }, [getToken])
-
-    if (!getToken) logout()
-    if (loading) return
-
-    function logout() {
-        localStorage.removeItem('token')
-        window.location.href = '/'
-    }
-
-    async function getData() {
-        await api.get('/user')
-            .then(resp => {
-                setUser(resp.data.user)
-                setLoading(false)
-            })
-            .catch(() => logout())
-    }
-
-    function createTask() {
+    function createTask(e) {
+        e.preventDefault()
         api.post(`/user/${user._id}`, { title: task.title, description: task.description })
             .then(() => {
                 getData()
@@ -60,12 +23,13 @@ export default function Todolist() {
                 setTask({ title: '', description: '' })
             })
             .catch(err => {
-                const msg = document.getElementById('msg')
+                const msg = document.getElementById('msg-create')
                 msg.innerText = err.response.data.msg
             })
     }
 
-    function updateTask() {
+    function updateTask(e) {
+        e.preventDefault()
         api.put(`/user/${user._id}/${editTask.task_id}`, {
             title: editTask.title,
             description: editTask.description,
@@ -102,16 +66,15 @@ export default function Todolist() {
 
     function getTasks(filter) {
         return user.tasks.filter(filter).map(task => (
-            <tr key={task.task_id} className="table-row" onClick={() => editTaskPage(task)}>
-                <td>{task.title}</td>
-                <td>{task.created_at}</td>
-                <td>
-                    <div className={`table-status ${task.checked ? 'table-status-checked' : 'table-status-pendent'}`}></div>
+            <tr key={task.task_id} className="table-body-row" onClick={() => editTaskPage(task)}>
+                <td className={`table-body-text table-body-task ${task.checked ? 'table-body-task-checked' : ''}`}>{task.title}</td>
+                <td className="table-body-text table-body-createdAt">{task.created_at}</td>
+                <td className="table-body-text table-body-status">
+                    {task.checked ? <div className="table-body-status-checked">Concluído</div> : <div className="table-body-status-pendent">Pendente</div>}
                 </td>
             </tr>
         ))
     }
-
 
     function filterTasksOptions() {
         const filterAllTasks = taskFilter => taskFilter
@@ -129,101 +92,34 @@ export default function Todolist() {
         }
     }
 
-    function activeMenuButton(filter) {
-        return page === filter ? 'navigation-option-active' : ''
-    }
-
-    function selectMenuOption(filter) {
-        setMenuMobile('ocultarMenu')
-        setPage(filter)
-    }
-
-    window.addEventListener('resize', () => {
-        const width = window.screen.width
-        width > 425 && width < 950 ? setMenuExpanded(false) : setMenuExpanded(true)
-        if (menuMobile === 'mostrarMenu') setMenuMobile('ocultarMenu')
-    })
-
-    function toggleMenuMobile() {
-        menuMobile === 'mostrarMenu' ? setMenuMobile('ocultarMenu') : setMenuMobile('mostrarMenu')
-    }
-
     return (
-        <div className={`todolist ${menuExpanded ? 'todolist-expanded' : 'todolist-reduced'}`}>
-
-            <section id="menu" className={`menu ${menuMobile === 'mostrarMenu' ? 'menu-show' : ''} ${menuMobile === 'ocultarMenu' ? 'menu-hide' : ''}`}>
-                <nav className="navigation">
-                    {menuMobile === 'mostrarMenu' ? <X onClick={() => toggleMenuMobile()} className="menu-toggle" size={30} weight="fill" /> :
-                        <List onClick={() => setMenuExpanded(prevState => !prevState)} className="menu-toggle" size={30} weight="fill" />
-                    }
-                    {menuExpanded ?
-                        <img className="menu-logo" src={Logo} alt="Logo" /> :
-                        <img className="menu-logo-reduced" src={Logo} alt="Logo" />
-                    }
-                    {menuExpanded ? <h1 className="menu-title">Todolist</h1> : false}
-                    <ul className="navigation-options">
-                        <li className="navigation-option navigation-createTask" onClick={() => selectMenuOption('createTask')}>
-                            <CalendarPlus size={25} weight="fill" />
-                            {menuExpanded ? <span className="navigation-text">Nova tarefa</span> : false}
-                        </li>
-                        <li className={`navigation-option ${activeMenuButton('allTasks')}`} onClick={() => selectMenuOption('allTasks')}>
-                            <CalendarBlank size={25} weight="regular" />
-                            {menuExpanded ? <span className="navigation-text">Todas</span> : false}
-                        </li>
-                        <li className={`navigation-option ${activeMenuButton('checkedTasks')}`} onClick={() => selectMenuOption('checkedTasks')}>
-                            <CalendarCheck size={25} weight="regular" />
-                            {menuExpanded ? <span className="navigation-text">Concluídas</span> : false}
-                        </li>
-                        <li className={`navigation-option ${activeMenuButton('pendentTasks')}`} onClick={() => selectMenuOption('pendentTasks')}>
-                            <CalendarX size={25} weight="regular" />
-                            {menuExpanded ? <span className="navigation-text">Pendentes</span> : false}
-                        </li>
-                    </ul>
-                </nav>
-                <div className="logout-container">
-                    <button className="navigation-logout" onClick={logout}>
-                        <SignOut size={25} weight="fill" />
-                        {menuExpanded ? <span className="navigation-text">Sair</span> : false}
-                    </button>
-                </div>
-            </section>
-            <div className={`bg-menu-mobile ${menuMobile === 'mostrarMenu' ? 'bg-menu-mobile-active' : ''}`}></div>
-
-
+        <div className="todolist">
+            <Menu />
             {page === 'allTasks' || page === 'checkedTasks' || page === 'pendentTasks' ? (
                 <section className="tableTasks-page">
                     {page === 'allTasks' ? (
-                        <div className="pageHeader">
-                            <List onClick={() => toggleMenuMobile()} className="menu-toggle-mobile" size={30} weight="fill" />
-                            <h2 className="header-title">Todas as tarefas</h2>
-                        </div>
+                        <PageHeader label="Todas as tarefas" />
                     ) : false}
 
                     {page === 'checkedTasks' ? (
-                        <div className="pageHeader">
-                            <List onClick={() => toggleMenuMobile()} className="menu-toggle-mobile" size={30} weight="fill" />
-                            <h2 className="header-title">Tarefas concluídas</h2>
-                        </div>
+                        <PageHeader label="Tarefas concluídas" />
                     ) : false}
 
                     {page === 'pendentTasks' ? (
-                        <div className="pageHeader">
-                            <List onClick={() => toggleMenuMobile()} className="menu-toggle-mobile" size={30} weight="fill" />
-                            <h2 className="header-title">Tarefas pendentes</h2>
-                        </div>
+                        <PageHeader label="Tarefas pendentes" />
                     ) : false}
 
-                    <div className="tableTasks-content">
+                    <main className="tableTasks-content">
                         {user.tasks.length > 0 ? (
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Tarefa</th>
-                                        <th>Criada em</th>
-                                        <th>Status</th>
+                            <table className="table">
+                                <thead className="table-header">
+                                    <tr className="table-header-row">
+                                        <th className="table-header-text table-header-task">Tarefa</th>
+                                        <th className="table-header-text table-header-createdAt">Criada em</th>
+                                        <th className="table-header-text table-header-status">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="table-body">
                                     {filterTasksOptions()}
                                 </tbody>
                             </table>
@@ -231,44 +127,57 @@ export default function Todolist() {
                             <p className="notTask">Não há nenhuma tarefa no momento,
                                 <strong className="notTask-redirect" onClick={_ => setPage('createTask')}> crie uma agora!</strong></p>
                         )}
-                    </div>
+                    </main>
                 </section>
             ) : false}
 
             {page === 'createTask' ? (
                 <section className="createTask-page">
-                    <div className="pageHeader">
-                        <List onClick={() => toggleMenuMobile()} className="menu-toggle-mobile" size={30} weight="fill" />
-                        <h2 className="header-title">Criar tarefa</h2>
-                    </div>
-                    <div className="createTask-content">
-                        <input type="text" placeholder='Nome da tarefa' value={task.title}
-                            onChange={e => setTask({ ...task, title: e.target.value })} required />
-                        <textarea type="text" placeholder='Descrição da tarefa' value={task.description}
-                            onChange={e => setTask({ ...task, description: e.target.value })} />
-                        <button onClick={createTask}>Criar tarefa</button>
-                    </div>
+                    <PageHeader label="Criar tarefa" />
+                    <main className="createTask-content">
+                        <form className="form">
+                            <label className="form-label" htmlFor="input-createTask">Tarefa<sup className="form-label-marked">*</sup></label>
+                            <input className="form-input-task" id="input-createTask" type="text" placeholder='Informe a tarefa...' maxLength={50}
+                                value={task.title} onChange={e => setTask({ ...task, title: e.target.value })} required />
+                            <label className="form-label" htmlFor="input-create-description">
+                                Descrição <small className="form-label-optional">- Opcional</small>
+                            </label>
+                            <textarea className="form-input-description" id="input-create-description" type="text" placeholder='Informe a descrição...'
+                                value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} />
+                            <div className="form-container-btn">
+                                <button type="submit" className="form-btn-create" onClick={e => createTask(e)}>Criar</button>
+                                <button type="button" className="form-btn-return" onClick={() => setPage('allTasks')}>Desistir</button>
+                            </div>
+                        </form>
+                        <div id="msg-create"></div>
+                    </main>
                 </section>
             ) : false}
 
             {page === 'editTask' ? (
                 <section className="editTask-page">
-                    <div className="pageHeader">
-                        <List onClick={() => toggleMenuMobile()} className="menu-toggle-mobile" size={30} weight="fill" />
-                        <h2 className="header-title">Editar tarefa</h2>
-                    </div>
-                    <div className="editTask-content">
-                        <input type="text" placeholder='Nome da tarefa' value={editTask.title}
-                            onChange={e => setEditTask({ ...editTask, title: e.target.value })} required />
-                        <textarea type="text" placeholder='Descrição da tarefa' value={editTask.description}
-                            onChange={e => setEditTask({ ...editTask, description: e.target.value })} />
-                        <div>Tarefa criada em: {editTask.created_at}</div>
-                        <div>Status: <span className={`edit-status ${editTask.checked ? 'edit-status-checked' : 'edit-status-pendent'}`}
-                            onClick={_ => updateChecked(editTask)}>{editTask.checked ? 'Concluído' : 'Pendente'}</span>
-                        </div>
-                        <button onClick={_ => deleteTask(editTask)}>Excluir</button>
-                        <button onClick={updateTask}>Salvar</button>
-                    </div>
+                    <PageHeader label="Editar tarefa" />
+                    <main className="createTask-content">
+                        <form className="form">
+                            <label className="form-label" htmlFor="input-createTask">Tarefa<sup className="form-label-marked">*</sup></label>
+                            <input className="form-input-task" id="input-createTask" type="text" placeholder='Informe a tarefa...' maxLength={50}
+                                value={editTask.title} onChange={e => setEditTask({ ...editTask, title: e.target.value })} required />
+                            <label className="form-label" htmlFor="input-create-description">
+                                Descrição <small className="form-label-optional">- Opcional</small>
+                            </label>
+                            <textarea className="form-input-description" id="input-create-description" type="text" placeholder='Informe a descrição...'
+                                value={editTask.description} onChange={e => setEditTask({ ...editTask, description: e.target.value })} />
+                            <p className="form-status">Status: <span className={`form-status-click ${editTask.checked ? 'form-status-checked' : 'form-status-pendent'}`}
+                                    onClick={_ => updateChecked(editTask)}>{editTask.checked ? 'Concluído' : 'Pendente'}</span>
+                            </p>
+                            <p className="form-createdAt">Tarefa criada em: <data className="form-createdAt-data">{editTask.created_at}</data></p>
+                            <div className="form-container-btn">
+                                <button type="submit" className="form-btn-create" onClick={e => updateTask(e)}>Salvar</button>
+                                <button type="button" className="form-btn-return" onClick={_ => deleteTask(editTask)}>Excluir</button>
+                            </div>
+                        </form>
+                        <div id="msg-create"></div>
+                    </main>
                 </section>
             ) : false}
         </div>

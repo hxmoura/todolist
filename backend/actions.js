@@ -91,11 +91,8 @@ const createTask = async (req, res) => {
         if(typeof title !== 'string' || typeof description !== 'string') {
             return res.status(400).send({ msg: 'Não foi possível criar a tarefa!' })
         }
-        if(title.length > 50) {
-            return res.status(400).send({ msg: 'A tarefa deve conter no máximo 50 caracteres!' })
-        } 
-        if(description.length > 200) {
-            return res.status(400).send({ msg: 'A descrição deve conter no máximo 200 caracteres!' })
+        if(title.length > 60) {
+            return res.status(400).send({ msg: 'A tarefa deve conter no máximo 60 caracteres!' })
         }
 
         user.tasks.push({ title, description, checked: false, task_id: new mongoose.mongo.ObjectId(), created_at: new Date().toLocaleDateString('pt-BR') })
@@ -121,11 +118,8 @@ const updateTask = async (req, res) => {
         if(typeof title !== 'string' || typeof description !== 'string' || typeof checked !== 'boolean') {
             return res.status(400).send({ msg: 'Não foi possível editar a tarefa!' })
         }
-        if(title.length > 50) {
-            return res.status(400).send({ msg: 'A tarefa deve conter no máximo 50 caracteres!' })
-        } 
-        if(description.length > 200) {
-            return res.status(400).send({ msg: 'A descrição deve conter no máximo 200 caracteres!' })
+        if(title.length > 60) {
+            return res.status(400).send({ msg: 'A tarefa deve conter no máximo 60 caracteres!' })
         }
 
         task.title = title

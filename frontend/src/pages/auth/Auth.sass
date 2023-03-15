@@ -1,75 +1,244 @@
-@import '../../App.sass'
+@import '../../sass/style.sass'
 
-.home
-    background-color: #E3F2F9
+.auth-page
+    background-color: $light-color-hover
     min-height: 100vh
     display: flex
-    flex-direction: column
     justify-content: center
-    align-items: center
+    transition: all .3s ease-in-out
 
-.auth-content
-    min-height: 450px
-    width: 400px
-    padding: 20px
+    @include dark
+        background-color: $dark-color
+
+    &-container
+        max-width: 1170px
+        width: 100%
+        padding: 0 25px 50px 25px
+        z-index: 2
+
+.ellipse
+    width: 600px
+    height: 600px
+    border-radius: 100%
+    position: absolute
+    background-color: #2424240d
+
+    @include dark
+        background-color: #ffffff03
+
+    &-position-1
+        left: -200px
+        top: 100px
+
+        @include tablet
+            left: -400px
+
+        @include mobile
+            left: -400px
+
+    &-position-2
+        left: 200px
+        top: 100px
+
+        @include tablet
+            left: -80px
+
+        @include mobile
+            display: none
+
+.header
+    min-height: 100px
+    height: auto
     display: flex
-    justify-content: center
+    justify-content: space-between
     align-items: center
+    flex-wrap: wrap
+    margin-bottom: 50px
+
+    &-logo
+        display: flex
+        align-items: center
+        gap: 10px
+
+        &-icon
+            color: $primary-color
+            width: 35px
+            height: 35px
+
+            @include mobile
+                width: 30px
+                height: 30px
+
+        &-text
+            @include text($size: 2.063rem, $height: 36.3px, $weight: 700)
+            text-transform: uppercase
+            color: $dark-color
+
+            @include dark
+                color: $light-color-hover
+
+            @include mobile
+                @include text($size: 1.438rem, $height: 27.6px, $weight: 700)
+
+.main
+    display: flex
+    justify-content: space-between
+
+    @include tablet
+        flex-direction: column
+        align-items: center
+
+.info
+    width: 100%
+    display: flex
     flex-direction: column
 
-.auth-title
-    font-weight: bold
-    font-size: 2rem
-    text-transform: uppercase
-    color: $primary-color
-    margin-bottom: 30px
+    @include tablet
+        align-items: center
+
+    @include mobile
+        align-items: flex-start
+
+    &-title
+        @include text($size: 2.5rem, $height: 44px, $weight: 700)
+        text-transform: uppercase
+        color: $dark-color
+
+        @include dark
+            color: $light-color-hover
+
+        @include tablet
+            text-align: center
+
+        @include mobile
+            @include text($size: 1.438rem, $height: 27.6px, $weight: 700)
+            text-align: left
+
+        &-color
+            color: $primary-color
+            display: block
+
+            @include dark
+                color: $primary-color
+
+    &-desc
+        @include text($size: 1.438rem, $height: 27.6px, $weight: 400)
+        color: $dark-color
+        max-width: 500px
+        margin: 20px 0 50px 0
+
+        @include dark
+            color: $light-color-hover
+
+        @include tablet
+            text-align: center
+
+        @include mobile
+            @include text($size: 1rem, $height: 24px, $weight: 400)
+            text-align: left
+
+    &-img
+        max-width: 570px
+        max-height: 368px
+        width: 100%
 
 .auth-form
-    width: 90%
-
-.signin-buttons
+    max-width: 370px
+    width: 100%
     display: flex
     flex-direction: column
     align-items: center
-    width: 90%
-    margin: 15px 0
 
-.auth-submit
-    background-color: $secundary-color
-    border: none
-    font-size: 1rem
-    font-weight: 500
-    text-transform: uppercase
-    color: #fff
-    padding: 10px 15px
-    border-radius: 10px
-    cursor: pointer
-    width: 100%
-    transition: all .2s ease-in-out
-    margin: 15px 0
+    &-notification
+        display: flex
+        visibility: hidden
+        align-items: center
+        gap: 10px
+        background-color: $pendent-color
+        padding: 10px
+        width: 100%
+        border-radius: 10px
+        margin-bottom: 50px
+        min-height: 45px
 
-    &:hover
-        background-color: #E4695E
+        @include tablet
+            margin-top: 80px
 
-.auth-redirect
-    color: $primary-color
-    text-decoration: none
-    font-size: 1rem
-    font-weight: 500
-    cursor: pointer
+        &-icon
+            color: $light-color-hover
 
-    &:hover
-        text-decoration: underline
+        &-text
+            color: $light-color-hover
+            @include text($size: 1rem, $height: 24px, $weight: 400)
 
-.auth-msg
-    color: $secundary-color
-    font-weight: 400
-    font-size: 1rem
-    margin-top: 20px
-    padding: 7px 20px
-    max-width: 90%
-    border: 1px solid $secundary-color
-    border-radius: 10px
+        &-show
+            visibility: visible
 
-.hidden
-    visibility: hidden
+    &-title
+        @include text($size: 2.063rem, $height: 36.3px, $weight: 700)
+        text-transform: uppercase
+        color: $dark-color
+        margin-bottom: 20px
+
+        @include dark
+            color: $light-color-hover
+
+    &-container
+        display: flex
+        flex-direction: column
+        width: 100%
+
+    &-input
+        height: 45px
+        margin-bottom: 10px
+        position: relative
+
+        &-icon
+            position: absolute
+            top: 10px
+            left: 10px
+
+        &-text
+            width: 100%
+            height: 100%
+            outline: none
+            border: none
+            border-radius: 10px
+            background-color: $light-color
+            padding: 13px 50px 13px 50px
+            @include text($size: 1rem, $height: 0px, $weight: 400)
+            color: $dark-color
+
+        &-password
+            cursor: pointer
+            color: $dark-color
+            position: absolute
+            right: 10px
+            top: 10px
+
+    &-btn
+        background-color: $primary-color
+        border-radius: 10px
+        border: none
+        outline: none
+        height: 45px
+        color: $light-color-hover
+        text-transform: uppercase
+        margin: 20px 0
+        cursor: pointer
+        box-shadow: 0px 4px 10px rgba(107, 151, 217, 0.5)
+        @include text($size: 1.2rem, $height: 23.04px, $weight: 700)
+
+    &-text
+        background-color: transparent
+        border: none
+        outline: none
+        color: $dark-color
+        cursor: pointer
+        @include text($size: 1.2rem, $height: 23.04px, $weight: 400)
+
+        @include dark
+            color: $light-color-hover
+
+        &:hover
+            text-decoration: underline

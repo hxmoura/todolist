@@ -1,36 +1,53 @@
-@mixin mobile
-    @media(max-width: 425px)
-        @content
-
-@mixin tablet
-    @media(max-width: 950px)
-        @content
+@import '../../sass/style.sass'
     
-    
-.pageHeader
-    grid-area: header
-    background-color: #5B6D81
-    min-height: 100px
+.page-header
     display: flex
-    align-items: flex-end
-    padding: 15px 0
-
-.menu-toggle-mobile
-    display: none
-    color: #fff
-    cursor: pointer
-    margin-left: 20px
+    flex-direction: column
+    margin-bottom: 30px
 
     @include mobile
+        transition: background-color .3s ease-in-out
+        padding: 25px
+        min-height: 100px
+        height: auto
+        background-color: $light-color
         display: flex
+        flex-direction: row
+        align-items: center
+        gap: 20px
+        position: fixed
+        width: 100%
 
-.header-title
-    color: #fff
-    font-weight: bold
-    font-size: 1.6rem
-    text-transform: uppercase
-    margin-left: 50px
+        @include dark
+            background-color: $dark-color-hover
 
-    @include mobile
-        margin-left: 20px
-        font-size: 1.3rem
+    &-menu
+        display: none
+
+        @include mobile
+            display: flex
+            color: $dark-color
+
+            @include dark
+                color: $light-color-hover
+
+    &-welcome
+        @include text($size: 1.725rem, $height: 33.12px, $weight: 400)
+        color: $dark-color
+
+        @include dark
+            color: $light-color-var-1
+
+        @include mobile
+            display: none
+
+    &-title
+        @include text($size: 2.063rem, $height: 36.3px, $weight: 700)
+        text-transform: uppercase
+        color: $dark-color
+
+        @include dark
+            color: $light-color-hover
+
+        @include mobile
+            font-size: 1.2rem
