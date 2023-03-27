@@ -52,9 +52,18 @@ DB_CONNECT=mongodb+srv://user:password@cluster.yoyurat.mongodb.net/?retryWrites=
 
 **Front-end**
 1. Execute o comando ``npm install``
+2. Dentro da pasta **frontend**, acesse o seguinte caminho: ``src > api > axios.js``
+3. No arquivo **axios.js** você irá informar a URL do backend, para que o frontend possa acessar o backend
+4. Siga os passos seguintes para **acesso local** e **acesso remoto**:
 
-  
-  
+****Acesso remoto****
+- Substitua a URL da *linha 5* pela URL do backend hospedado
+
+****Acesso local****
+- Remova a *linha 5*
+- Remova as duas barras iniciais da *linha 4*
+
+
 
 ## 🚀 Funcionamento
 
