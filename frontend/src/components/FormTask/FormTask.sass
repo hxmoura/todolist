@@ -1,8 +1,14 @@
 @import '../../sass/style.sass'
-    
+
 .form
     display: flex
     flex-direction: column
+
+    &-container
+        display: flex
+        flex-direction: column
+        max-width: 1000px
+        margin-bottom: 30px
 
     &-label
         @include text($size: 1.2rem, $height: 16px, $weight: 700)
@@ -22,19 +28,39 @@
 
     &-input-task
         @include input
+        border: 2px solid transparent
+
         @include dark
             background-color: $dark-color-hover
             color: $light-color-hover
 
+        &-warning
+            border: 2px solid $pendent-color
+
+        &-confirmed
+            border: 2px solid $checked-color
+
     &-input-description
         @include input
-        margin-bottom: 50px
         height: 200px
         resize: none
 
         @include dark
             background-color: $dark-color-hover
             color: $light-color-hover
+
+    &-createdAt
+        &-text
+            text-align: right
+            margin-bottom: 10px
+            @include text($size: 1rem, $height: 24px, $weight: 400)
+            color: $dark-color
+
+            @include dark
+                color: $light-color-hover
+
+        &-data
+            @include text($size: 1rem, $height: 24px, $weight: 700)
 
     &-btn-create
         background-color: $primary-color

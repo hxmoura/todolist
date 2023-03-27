@@ -1,29 +1,31 @@
 @import '../../sass/style.sass'
 
 .toggle-theme-btn
-        background-color: $light-color-hover
-        border-radius: 261px
-        box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.3)
-        border: none
-        outline: none
-        cursor: pointer
-        width: 60px
-        height: 30px
-        position: relative
+    background-color: $light-color-hover
+    border-radius: 261px
+    box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.3)
+    border: none
+    outline: none
+    cursor: pointer
+    width: 60px
+    height: 30px
+    position: relative
 
-        @include dark
-            background-color: $primary-color
+    @include dark
+        background-color: $primary-color
 
 .toggle-theme-circle
-        width: 20px
-        height: 20px
-        border-radius: 50px
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
-        background-color: $primary-color
-        margin: 5px
-        position: absolute
-        top: 0
+    width: 20px
+    height: 20px
+    border-radius: 50px
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+    background-color: $primary-color
+    margin: 5px
+    position: absolute
+    top: 0
+    right: 30px
+    transition: right .3s ease-in-out
 
-        @include dark
-            background-color: $light-color-hover
-            right: 0
+    @include dark
+        background-color: $light-color-hover
+        right: 0

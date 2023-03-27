@@ -11,7 +11,7 @@ const signup = async (req, res) => {
         const user = await User.findOne({ username })
 
         if (user) {
-            return res.status(400).send({ msg: 'Usuário já cadastrado, tente outro!' })
+            return res.status(400).send({ existingUser: 'Usuário já cadastrado, tente outro!' })
         }
         if (!username) {
             return res.status(400).send({ msg: 'Informe um nome de usuário' })
@@ -45,8 +45,7 @@ const signin = async (req, res) => {
     try {
         const { username, password } = req.body
         const user = await User.findOne({ username })
-        const comparePassword = await bcrypt.compare(password, user.password)
-        
+
         if (!username) {
             return res.status(400).send({ msg: 'Informe o usuário!' })
         }
@@ -54,10 +53,13 @@ const signin = async (req, res) => {
             return res.status(400).send({ msg: 'Informe a senha!' })
         }
         if (!user) {
-            return res.status(400).send({ msg: 'Usuário não encontrado!' })
+            return res.status(400).send({ notUser: 'Usuário não encontrado!' })
         }
+
+        const comparePassword = await bcrypt.compare(password, user.password)
+
         if (!comparePassword) {
-            return res.status(400).send({ msg: 'Senha inválida!' })
+            return res.status(400).send({ invalidPassword: 'Senha inválida!' })
         }
 
         const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: 10000 })
@@ -84,21 +86,21 @@ const createTask = async (req, res) => {
         const { title, description } = req.body
         const id = req.params.id
         const user = await User.findById(id, '-password')
-        
-        if(!title) {
+
+        if (!title) {
             return res.status(400).send({ msg: 'Informe a tarefa!' })
         }
-        if(typeof title !== 'string' || typeof description !== 'string') {
+        if (typeof title !== 'string' || typeof description !== 'string') {
             return res.status(400).send({ msg: 'Não foi possível criar a tarefa!' })
         }
-        if(title.length > 60) {
+        if (title.length > 60) {
             return res.status(400).send({ msg: 'A tarefa deve conter no máximo 60 caracteres!' })
         }
 
         user.tasks.push({ title, description, checked: false, task_id: new mongoose.mongo.ObjectId(), created_at: new Date().toLocaleDateString('pt-BR') })
         user.save()
         return res.status(200).send({ msg: 'Tarefa criada com sucesso!' })
-    } catch(err) {
+    } catch (err) {
         return res.status(404).send({ msg: 'Não foi possível criar a tarefa!' })
     }
 }
@@ -112,13 +114,13 @@ const updateTask = async (req, res) => {
         const task = await user.tasks.find(task => task.task_id == taskId)
         const { title, description, checked } = req.body
 
-        if(!title) {
+        if (!title) {
             return res.status(400).send({ msg: 'Informe a tarefa!' })
         }
-        if(typeof title !== 'string' || typeof description !== 'string' || typeof checked !== 'boolean') {
+        if (typeof title !== 'string' || typeof description !== 'string' || typeof checked !== 'boolean') {
             return res.status(400).send({ msg: 'Não foi possível editar a tarefa!' })
         }
-        if(title.length > 60) {
+        if (title.length > 60) {
             return res.status(400).send({ msg: 'A tarefa deve conter no máximo 60 caracteres!' })
         }
 

@@ -1,14 +1,57 @@
 @import '../../sass/style.sass'
 
-.todolist
+// BACKGROUND - ALL
+.background
     min-height: 100vh
     height: 100%
-    padding-left: 230px
-    transition: all .3s ease-in-out
     background-color: $light-color-hover
+    transition: all .3s ease-in-out
 
     @include dark
         background-color: $dark-color
+
+// LOADING - PAGE
+.loading
+    min-height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+
+    &-svg
+        width: 60px
+        height: 60px
+        animation: rotate 2s linear infinite
+
+    &-circle
+        fill: none
+        stroke: $primary-color
+        stroke-width: 4
+        stroke-dasharray: 1, 200
+        stroke-dashoffset: 0
+        stroke-linecap: round
+        animation: rotate-circle 1.5s ease-in-out infinite
+
+@keyframes rotate
+    100%
+        transform: rotate(360deg)
+
+@keyframes rotate-circle
+    0%
+        stroke-dasharray: 1, 200
+        stroke-dashoffset: 0
+
+    50%
+        stroke-dasharray: 90, 200
+        stroke-dashoffset: -35px
+
+    100%
+        stroke-dashoffset: -125px
+
+// TODOLIST - PAGE
+.todolist
+    transition: all .3s ease-in-out
+    min-height: 100vh
+    padding-left: 230px
 
     @include tablet
         padding-left: 80px
@@ -30,182 +73,132 @@
     .tableTasks-content
         padding: 130px 25px 25px 25px
 
-.table
+.table-tasks
     max-width: 1000px
     width: 100%
     border-spacing: 0px 5px
 
-    &-header
-        max-height: 50px
+    & thead
         background-color: $primary-color
-        border-radius: 20px
+        height: 45px
 
-        &-text
-            @include text($size: 1rem, $height: 20px, $weight: 700)
-            color: $light-color-hover
-            text-transform: uppercase
+    & th
+        @include text($size: 0.75rem, $height: 20px, $weight: 700)
+        letter-spacing: 1px
+        color: $light-color-hover
+        padding: 10px
+        text-transform: uppercase
 
-        &-task
-            padding: 15px
+        &.status
+            text-align: center
+
+        &.task
             text-align: left
 
-            @include mobile
+            @include tablet
                 text-align: center
 
-        &-status
-            width: 200px
-            padding: 15px
-
-            @include mobile
-                display: none
-
-        &-createdAt
-            width: 200px
-            padding: 15px
-
+        &.createdAt
             @include tablet
                 display: none
 
-    &-body
+    & tbody
+        transition: all .3s ease-in-out
+        height: 40px
+        background-color: $light-color
 
-        &-row
+        @include dark
+            background-color: $dark-color-hover
+
+    & tr td
+        height: 50px
+        padding: 10px
+        @include text($size: 1rem, $height: 24px, $weight: 400)
+        color: $dark-color
+
+        @include dark
+            color: $light-color-hover
+
+        &.status
+            text-align: center
+            min-width: 120px
+
+            @include tablet
+                min-width: 80px
+
+            @include mobile
+                min-width: 50px
+
+        &.task
             cursor: pointer
-            background-color: $light-color
-            transition: background-color .3s ease-in-out
-
-            @include dark
-                background-color: $dark-color-hover
-
-        &-text
-            @include text($size: 1rem, $height: 24px, $weight: 400)
-            color: $dark-color
-
-            @include dark
-                color: $light-color-hover
-
-        &-task
-            padding: 10px
-            max-width: 200px
+            max-width: 100px
+            width: 100%
             white-space: nowrap
             overflow: hidden
             text-overflow: ellipsis
 
             &-checked
                 text-decoration: line-through
-                color: $light-color-var-1
+                color: rgba(48, 48, 48, 0.5)
 
                 @include dark
-                    color: $light-color-var-1
+                    color: rgba(255, 255, 255, 0.5)
 
-        &-status
-            padding: 10px
-            width: 200px
+        &.createdAt
+            cursor: pointer
             text-align: center
-
-            @include mobile
-                display: none
-
-            &-checked
-                color: $checked-color
-
-            &-pendent
-                color: $pendent-color
-
-        &-createdAt
-            padding: 10px
-            width: 200px
-            text-align: center
+            min-width: 300px
 
             @include tablet
                 display: none
 
-.form
+            &-checked
+                color: rgba(48, 48, 48, 0.5)
+
+                @include dark
+                    color: rgba(255, 255, 255, 0.5)
+
+.checkbox
     display: flex
-    flex-direction: column
+    justify-content: center
+    align-items: center
 
-    &-label
-        @include text($size: 1.2rem, $height: 16px, $weight: 700)
-        margin-bottom: 10px
-        text-transform: uppercase
-        color: $dark-color
+    &-hidden
+        display: none
 
-        @include dark
-            color: $light-color-hover
-
-        &-marked
-            color: $pendent-color
-
-        &-optional
-            font-weight: 400
-            text-transform: none
-
-    &-input-task
-        @include input
-        @include dark
-            background-color: $dark-color-hover
-            color: $light-color-hover
-
-    &-input-description
-        @include input
-        height: 200px
-        resize: none
+    &-new
+        width: 25px
+        height: 25px
+        border-radius: 50%
+        cursor: pointer
+        display: flex
+        justify-content: center
+        align-items: center
+        transition: all .3s ease-in-out
+        background-color: $light-color-hover
 
         @include dark
-            background-color: $dark-color-hover
-            color: $light-color-hover
+            background-color: $dark-color
 
-    &-status
-        @include text($size: 1.2rem, $height: 23.04px, $weight: 400)
-        color: $dark-color
-
-        @include dark
-            color: $light-color-hover
-
-        &-click
-            @include text($size: 1.2rem, $height: 23.04px, $weight: 700)
-            cursor: pointer
-
-            &:hover
-                text-decoration: underline
-
-        &-checked
-            color: $checked-color
-
-        &-pendent
-            color: $pendent-color
-
-    &-createdAt
-        @include text($size: 1.2rem, $height: 23.04px, $weight: 400)
-        color: $dark-color
-
-        @include dark
-            color: $light-color-hover
-
-        &-data
-            @include text($size: 1.2rem, $height: 23.04px, $weight: 700)
-
-    &-container-btn
-        margin-top: 30px
-
-    &-btn-create
+    &-active
         background-color: $primary-color
-        color: $light-color-hover
-        @include text($size: 1rem, $height: 24px, $weight: 400)
-        border-radius: 10px
-        border: none
-        outline: none
-        padding: 8px 25px
-        height: 40px
-        margin-right: 20px
-        cursor: pointer
-
-    &-btn-return
-        @include text($size: 1rem, $height: 24px, $weight: 400)
-        background-color: transparent
-        color: $dark-color
-        border: none
-        outline: none
-        cursor: pointer
 
         @include dark
-            color: $light-color-hover
+            background-color: $primary-color
+
+    &-icon
+        color: $light-color-hover
+
+.notTask
+    @include text($size: 1.2rem, $height: 23.04px, $weight: 400)
+    color: $dark-color
+
+    @include dark
+        color: $light-color-hover
+
+    &-redirect
+        @include text($size: 1.2rem, $height: 23.04px, $weight: 700)
+        cursor: pointer
+
+        &:hover
+            text-decoration: underline

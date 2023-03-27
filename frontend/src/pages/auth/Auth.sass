@@ -148,31 +148,21 @@
     display: flex
     flex-direction: column
     align-items: center
+    margin-top: 60px
 
-    &-notification
+    &-completed-registration
         display: flex
-        visibility: hidden
+        justify-content: center
         align-items: center
-        gap: 10px
-        background-color: $pendent-color
-        padding: 10px
-        width: 100%
+        border: 2px solid $checked-color
         border-radius: 10px
-        margin-bottom: 50px
-        min-height: 45px
-
-        @include tablet
-            margin-top: 80px
-
-        &-icon
-            color: $light-color-hover
+        width: 100%
+        padding: 10px
+        margin-bottom: 30px
 
         &-text
-            color: $light-color-hover
             @include text($size: 1rem, $height: 24px, $weight: 400)
-
-        &-show
-            visibility: visible
+            color: $checked-color
 
     &-title
         @include text($size: 2.063rem, $height: 36.3px, $weight: 700)
@@ -189,9 +179,11 @@
         width: 100%
 
     &-input
-        height: 45px
-        margin-bottom: 10px
-        position: relative
+        margin-bottom: 8px
+
+        &-field
+            height: 45px
+            position: relative
 
         &-icon
             position: absolute
@@ -208,6 +200,8 @@
             padding: 13px 50px 13px 50px
             @include text($size: 1rem, $height: 0px, $weight: 400)
             color: $dark-color
+            transition: border .3s ease-in-out
+            border: 2px solid transparent
 
         &-password
             cursor: pointer
@@ -224,7 +218,7 @@
         height: 45px
         color: $light-color-hover
         text-transform: uppercase
-        margin: 20px 0
+        margin: 15px 0
         cursor: pointer
         box-shadow: 0px 4px 10px rgba(107, 151, 217, 0.5)
         @include text($size: 1.2rem, $height: 23.04px, $weight: 700)

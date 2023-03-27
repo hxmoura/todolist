@@ -1,12 +1,8 @@
 import React from 'react'
 import './PageHeader.sass'
 import { List } from 'phosphor-react'
-import useAuth from '../../hooks/useAuth'
 
-
-export default function PageHeader(props) {
-
-    const { user } = useAuth()
+export default function PageHeader({ username, label }) {
 
     function handleMenuMobile() {
         const menu = document.getElementById('menu')
@@ -17,9 +13,9 @@ export default function PageHeader(props) {
 
     return (
         <header className="page-header">
-            <List onClick={() => handleMenuMobile()} className="page-header-menu" size={30} weight="fill" />
-            <small className="page-header-welcome">Olá, {user.username}</small>
-            <strong className="page-header-title">{props.label}</strong>
+            <List onClick={handleMenuMobile} className="page-header-menu" size={30} weight="fill" />
+            <small className="page-header-welcome">Olá, {username}</small>
+            <strong className="page-header-title">{label}</strong>
         </header>
     )
 }
