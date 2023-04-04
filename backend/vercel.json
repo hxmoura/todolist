@@ -1,4 +1,7 @@
 {
+    "regions": [
+        "gru1"
+    ],
     "version": 2,
     "builds": [
         {
