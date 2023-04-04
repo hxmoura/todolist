@@ -73,7 +73,7 @@ export default function Auth() {
 
     function validateUser() {
         if (!input.username) {
-            setMsgUsername({ msg: 'O campo é obrigatório', status: 'visible' })
+            setMsgUsername({ msg: 'Informe o nome de usuário', status: 'visible' })
         }
         else if (input.username.length < 3 || input.username.length > 24) {
             setMsgUsername({ msg: 'O nome de usuário deve ter entre 3 e 24 caracteres', status: 'visible' })
@@ -85,7 +85,7 @@ export default function Auth() {
 
     function validatePassword() {
         if (!input.password) {
-            setMsgPassword({ msg: 'O campo é obrigatório', status: 'visible' })
+            setMsgPassword({ msg: 'Informe a senha', status: 'visible' })
         }
         else if (input.password.length < 6) {
             setMsgPassword({ msg: 'A senha deve conter no mínimo 6 caracteres', status: 'visible' })
@@ -97,7 +97,7 @@ export default function Auth() {
 
     function validateConfirmPassword() {
         if (!input.confirmPassword) {
-            setMsgConfirmPassword({ msg: 'O campo é obrigatório', status: 'visible' })
+            setMsgConfirmPassword({ msg: 'Confirme a senha', status: 'visible' })
         }
         else if (input.confirmPassword !== input.password) {
             setMsgConfirmPassword({ msg: 'As senhas não conferem', status: 'visible' })
@@ -106,7 +106,6 @@ export default function Auth() {
             setMsgConfirmPassword({ msg: '', status: 'confirmed' })
         }
     }
-
 
     const validateWarningClass = (inputArea) => inputArea.status === 'visible' ? 'notification-warning' : ''
     const validateConfirmedClass = (inputArea) => inputArea.status === 'confirmed' ? 'notification-confirmed' : ''

@@ -4,8 +4,11 @@ import './Menu.sass'
 import ThemeToggle from '../ThemeToogle/ThemeToggle'
 import useAuth from '../../hooks/useAuth'
 
-export default function Menu({ page, setPage }) {
+export default function Menu(props) {
+
+    const { page, setPage } = props.handlePage
     const { logout } = useAuth()
+    
     const activeMenuButton = filter => page === filter ? 'navigation-option-active' : ''
 
     function hideMenu() {
@@ -37,7 +40,7 @@ export default function Menu({ page, setPage }) {
     }
 
     return (
-        <section>
+        <div>
             <section id="menu" className="menu" onTouchStart={event => handleTouchStart(event)} onTouchMove={event => handleTouchMove(event)}>
                 <div className="menu-logo">
                     <Check className="menu-logo-icon" size={35} weight="bold" />
@@ -76,6 +79,6 @@ export default function Menu({ page, setPage }) {
                 </div>
             </section>
             <div id="bg" className="menu-bg" onClick={hideMenu}></div>
-        </section>
+        </div>
     )
 }

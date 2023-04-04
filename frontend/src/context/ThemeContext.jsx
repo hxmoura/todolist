@@ -5,12 +5,12 @@ export const ThemeContext = createContext({})
 export default function ThemeProvider({ children }) {
 
     const getTheme = () => {
-        const get = JSON.parse(localStorage.getItem('darkTheme'))
+        const getLocalTheme = JSON.parse(localStorage.getItem('darkTheme'))
 
-        if (get === true || get === false) {
-            return get
+        if (getLocalTheme === true || getLocalTheme === false) {
+            return getLocalTheme
         } else {
-            return true
+            return false
         }
     }
 

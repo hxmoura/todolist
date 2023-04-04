@@ -26,19 +26,13 @@ Execute os seguintes passos para a configuração do projeto:
 
 **Back-end**
 1. Execute o comando ``npm install``
-2. Crie o arquivo ``.env`` na pasta raiz do **Backend**
-3. Adicione as variaveis ***SECRET*** e ***DB_CONNECT***, seguidos pelo símbolo de igual, segue o exemplo abaixo:
+2. Acesse o arquivo ``index.js``
+3. Na **linha 16** informe dentro do array, a URL do frontend, esse processo servirá para validar que somente seu site possa se conectar ao backend.
+4. Renomeie o arquivo ``.env-model`` para ``.env``
+5. Altere os valores das variaveis ***SECRET*** e ***DB_CONNECT***
 
-```
-
-
-SECRET=
-DB_CONNECT=
-
-```
-
-Para **SECRET**, você poderá digitar qualquer coisa, uma vez que isso é uma chave única e que somente você terá acesso.
-Para **DB_CONNECT**, você irá informar a URL que forneça acesso a um banco de dados.
+Para **SECRET**, você poderá informar qualquer coisa, uma vez que isso é uma chave única e que somente você terá acesso, a variável servirá para validar o usuário no backend.
+Para **DB_CONNECT**, você irá informar a URL que forneça acesso a um banco de dados do mongoDB Atlas.
 
 Ao final, seu arquivo ``.env`` deverá ser algo semelhante a isso:
 
@@ -50,10 +44,11 @@ DB_CONNECT=mongodb+srv://user:password@cluster.yoyurat.mongodb.net/?retryWrites=
 
 ```
 
+
 **Front-end**
 1. Execute o comando ``npm install``
 2. Dentro da pasta **frontend**, acesse o seguinte caminho: ``src > api > axios.js``
-3. No arquivo **axios.js** você irá informar a URL do backend, para que o frontend possa acessar o backend
+3. No arquivo **axios.js** você irá informar a URL do backend
 4. Siga os passos seguintes para **acesso local** e **acesso remoto**:
 
 ****Acesso remoto****

@@ -73,6 +73,10 @@
         height: 40px
         margin-right: 20px
         cursor: pointer
+        transition: background-color .2s ease-in-out
+
+        &:hover, &:active
+            background-color: $primary-color-hover
 
     &-btn-return
         @include text($size: 1rem, $height: 24px, $weight: 400)
